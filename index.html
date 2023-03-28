@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coding Quiz</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+
+    <header>
+        <button id="scores">High Scores</button>
+        <h1 > Time Left: <span id="timer">0</span></h1>
+    </header>
+    <!-- create a button for the start -->
+    <section id="startContainer">
+      <button type="button" id="startBtn">Start</button>
+    </section>
+
+  
+    <!-- Container for questions - create h2 to house the question, creatae a container for the buttons, creatae button elements for the choices -->
+    <section id="questionsContainer" class="hide">
+      <h2 id="questionDisplay"></h2>
+      <div>
+        <button id="choiceBtn1"></button>
+        <button id="choiceBtn2"></button>
+        <button id="choiceBtn3"></button>
+        <button id="choiceBtn4"></button>
+      </div>
+    </section>
+
+    <!-- create a container for the game over screen, Create element () for the Highscore, create an iput for the initials. Need a button to submit the score and initials -->
+    <section id="gameOverContainer" class="hide">
+      <h2></h2>
+      <div class="scoreInput">
+        <label for="initials">User initals:</label>
+        <input type="text" id="initials" />
+        <button></button>
+      </class>
+      </div>
+    </section>
+
+    <!-- create highscores container. display all the users highscores and initials (think about what element to use to build this with) -->
+
+    <section id="highScoresContainer">
+
+    </section>
+
+    <script src="./logic.js"></script>
+  </body>
+</html>
