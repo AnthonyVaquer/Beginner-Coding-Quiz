@@ -58,7 +58,7 @@ var choiceBtn4 = document.getElementById("choiceBtn4");
 
 
 var timer;
-var time = 100;
+var time = 30;
 var pickQuestionIndex = 0;
 
 
@@ -66,6 +66,7 @@ var pickQuestionIndex = 0;
 function startGame() {
   //   Starts game, hides start screen, display question container, starts timer, calls runQuestion function
   startContainer.setAttribute("class", "hide");
+  startBtn.setAttribute("class", "hide");
   questionsContainer.removeAttribute("class");
   timerEl.textContent = time;
   timer = setInterval(function () {
@@ -96,13 +97,41 @@ function runQuestions () {
 
 }
 
-if 
+function checkAnswer(answer) {
+  clearInterval(timer);
+  var selectedChoice = answer.target.textContent;
+  var pickQuestion = questions[pickQuestionIndex];
+  if (selectedChoice === pickQuestion.answer) {
+    time += 10;
+    alert("Correct!");
+  } else {
+    time -= 10;
+    alert("Wrong!");
+  }
+
+  pickQuestionIndex++;
+  if (pickQuestionIndex === questions.length) {
+    endGame();
+  } else {
+    runQuestions();
+  }
+}
+
+
 // endGame logic
-function endGame
+function endGame() {
+  clearInterval(timer);
+  questionsContainer.setAttribute("class", "hide");
+  gameOverContainer.removeAttribute("class");
+  // display the user's score in the HTML
+}
 
 
 // create a function that will run on the choice button click (event delegation)
-
+choiceBtn1.addEventListener("click", checkAnswer);
+choiceBtn2.addEventListener("click", checkAnswer);
+choiceBtn3.addEventListener("click", checkAnswer);
+choiceBtn4.addEventListener("click", checkAnswer);
 
 
 startBtn.addEventListener("click", startGame);
