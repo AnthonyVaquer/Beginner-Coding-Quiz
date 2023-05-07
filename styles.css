@@ -110,6 +110,8 @@
   #gameOverContainer h2 {
     font-size: 28px;
     margin-bottom: 20px;
+    color: white;
+    position: absolute;
   }
   
   .scoreInput {

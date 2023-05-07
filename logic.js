@@ -102,10 +102,10 @@ function checkAnswer(answer) {
   var selectedChoice = answer.target.textContent;
   var pickQuestion = questions[pickQuestionIndex];
   if (selectedChoice === pickQuestion.answer) {
-    time += 10;
+    time += 5;
     alert("Correct!");
   } else {
-    time -= 10;
+    time -= 5;
     alert("Wrong!");
   }
 
@@ -123,7 +123,7 @@ function endGame() {
   clearInterval(timer);
   questionsContainer.setAttribute("class", "hide");
   gameOverContainer.removeAttribute("class");
-  // display the user's score in the HTML
+  document.querySelector("#gameOverContainer h2").textContent = "Score: " + time;
 }
 
 
