@@ -1,5 +1,15 @@
 var questions = [
   {
+    question: "What is a variable?",
+    choices: [
+      "A data structure that stores a collection of elements.",
+      "A set of instructions that performs a task.",
+      "A named location that stores a value.",
+      "A type of function that returns a value.",
+    ],
+    answer: "A named location that stores a value.",
+  },
+  {
     question: '"Const" is a variable that:',
     choices: [
       "does not change.",
@@ -56,15 +66,14 @@ var choiceBtn2 = document.getElementById("choiceBtn2");
 var choiceBtn3 = document.getElementById("choiceBtn3");
 var choiceBtn4 = document.getElementById("choiceBtn4");
 
+var highScores = [];
 
 var timer;
 var time = 30;
 var pickQuestionIndex = 0;
 
-
-
 function startGame() {
-  //   Starts game, hides start screen, display question container, starts timer, calls runQuestion function
+  // Starts game, hides start screen, display question container, starts timer, calls runQuestion function
   startContainer.setAttribute("class", "hide");
   startBtn.setAttribute("class", "hide");
   questionsContainer.removeAttribute("class");
@@ -73,32 +82,35 @@ function startGame() {
     time--;
     // display the time in the HTML
     timerEl.textContent = time;
+    if (time === 0) {
+      clearInterval(timer);
+      alert("Time is up!");
+      endGame();
+    }
   }, 1000);
-  runQuestions ();
+  runQuestions();
 }
 
-function runQuestions () {
-    // display the question on the HTML
-    var pickQuestion = questions[pickQuestionIndex];
-    questionDisplay.textContent = pickQuestion.question;
+function runQuestions() {
+  // display the question on the HTML
+  var pickQuestion = questions[pickQuestionIndex];
+  questionDisplay.textContent = pickQuestion.question;
 
-    // display the choices in each appropriate button
-    choiceBtn1.textContent = pickQuestion.choices[0];
-    choiceBtn2.textContent = pickQuestion.choices[1];
-    choiceBtn3.textContent = pickQuestion.choices[2];
-    choiceBtn4.textContent = pickQuestion.choices[3];
+  // display the choices in each appropriate button
+  choiceBtn1.textContent = pickQuestion.choices[0];
+  choiceBtn2.textContent = pickQuestion.choices[1];
+  choiceBtn3.textContent = pickQuestion.choices[2];
+  choiceBtn4.textContent = pickQuestion.choices[3];
 
-    // add event listener to each button that will check the value (review what 'this' does) 'this' is a global event review the activities or google it
+  // add event listener to each button that will check the value (review what 'this' does) 'this' is a global event review the activities or google it
 
-    choiceBtn1.addEventListener("click", globalThis);
-    choiceBtn2.addEventListener("click", globalThis);
-    choiceBtn3.addEventListener("click", globalThis);
-    choiceBtn4.addEventListener("click", globalThis);
-
+  choiceBtn1.addEventListener("click", globalThis);
+  choiceBtn2.addEventListener("click", globalThis);
+  choiceBtn3.addEventListener("click", globalThis);
+  choiceBtn4.addEventListener("click", globalThis);
 }
 
 function checkAnswer(answer) {
-  clearInterval(timer);
   var selectedChoice = answer.target.textContent;
   var pickQuestion = questions[pickQuestionIndex];
   if (selectedChoice === pickQuestion.answer) {
@@ -117,15 +129,14 @@ function checkAnswer(answer) {
   }
 }
 
-
 // endGame logic
 function endGame() {
   clearInterval(timer);
   questionsContainer.setAttribute("class", "hide");
   gameOverContainer.removeAttribute("class");
-  document.querySelector("#gameOverContainer h2").textContent = "Score: " + time;
+  document.querySelector("#gameOverContainer h2").textContent =
+    "Score: " + time;
 }
-
 
 // create a function that will run on the choice button click (event delegation)
 choiceBtn1.addEventListener("click", checkAnswer);
@@ -133,7 +144,4 @@ choiceBtn2.addEventListener("click", checkAnswer);
 choiceBtn3.addEventListener("click", checkAnswer);
 choiceBtn4.addEventListener("click", checkAnswer);
 
-
 startBtn.addEventListener("click", startGame);
-
-
