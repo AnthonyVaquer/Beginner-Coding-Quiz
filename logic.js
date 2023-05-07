@@ -65,6 +65,7 @@ var choiceBtn1 = document.getElementById("choiceBtn1");
 var choiceBtn2 = document.getElementById("choiceBtn2");
 var choiceBtn3 = document.getElementById("choiceBtn3");
 var choiceBtn4 = document.getElementById("choiceBtn4");
+var submitBtn = document.getElementById("submitBtn");
 
 var highScores = [];
 
@@ -124,24 +125,48 @@ function checkAnswer(answer) {
   pickQuestionIndex++;
   if (pickQuestionIndex === questions.length) {
     endGame();
+    console.log(pickQuestion);
   } else {
     runQuestions();
+    console.log(pickQuestion);
   }
 }
 
 // endGame logic
 function endGame() {
   clearInterval(timer);
+  // remove questions
   questionsContainer.setAttribute("class", "hide");
+  // show end game form
   gameOverContainer.removeAttribute("class");
+  // user score
   document.querySelector("#gameOverContainer h2").textContent =
     "Score: " + time;
+};
+
+//trrying to get the high scores/local storage to work
+function getHighScore () {
+  var initialsInput = document.querySelector("#initials");
+  var initials = initialsInput.value.trim();
+  highScores.push({ initials, score: time });
+  highScores.sort((a, b) => b.score - a.score);
+  highScores = highScores.slice(0, 10);
 }
+
+// load the high scores from local storage
+const storedScores = localStorage.getItem("highScores");
+if (storedScores) {
+  highScores = JSON.parse(storedScores);
+}
+
+// save high scores
+localStorage.setItem("highScores", JSON.stringify(highScores));
 
 // create a function that will run on the choice button click (event delegation)
 choiceBtn1.addEventListener("click", checkAnswer);
 choiceBtn2.addEventListener("click", checkAnswer);
 choiceBtn3.addEventListener("click", checkAnswer);
 choiceBtn4.addEventListener("click", checkAnswer);
+submitBtn.addEventListener("click", submitScore);
 
 startBtn.addEventListener("click", startGame);
