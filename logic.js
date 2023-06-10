@@ -1,3 +1,15 @@
+// GIVEN I am taking a code quiz
+// WHEN I click the start button
+// THEN a timer starts and I am presented with a question
+// WHEN I answer a question
+// THEN I am presented with another question
+// WHEN I answer a question incorrectly
+// THEN time is subtracted from the clock
+// WHEN all questions are answered or the timer reaches 0
+// THEN the game is over
+// WHEN the game is over
+// THEN I can save my initials and my score
+
 var questions = [
   {
     question: "What is a variable?",
@@ -42,18 +54,6 @@ var questions = [
   },
 ];
 
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and my score
-
 var startBtn = document.getElementById("startBtn");
 var startContainer = document.getElementById("startContainer");
 var questionsContainer = document.getElementById("questionsContainer");
@@ -66,11 +66,24 @@ var choiceBtn2 = document.getElementById("choiceBtn2");
 var choiceBtn3 = document.getElementById("choiceBtn3");
 var choiceBtn4 = document.getElementById("choiceBtn4");
 var submitBtn = document.getElementById("submitBtn");
+var scoresBtn = document.getElementById("scores");
+var highScoresList = document.getElementById("highScoresList")
+choiceBtn1.addEventListener("click", checkAnswer);
+choiceBtn2.addEventListener("click", checkAnswer);
+choiceBtn3.addEventListener("click", checkAnswer);
+choiceBtn4.addEventListener("click", checkAnswer);
+
+// event listener to start game
+startBtn.addEventListener("click", startGame);
+
+// submit score event listener
+submitBtn.addEventListener("click", submitScore);
+
 
 var highScores = [];
 
 var timer;
-var time = 30;
+var time = 60;
 var pickQuestionIndex = 0;
 
 function startGame() {
@@ -105,12 +118,13 @@ function runQuestions() {
 
   // add event listener to each button that will check the value (review what 'this' does) 'this' is a global event review the activities or google it
 
-  choiceBtn1.addEventListener("click", globalThis);
-  choiceBtn2.addEventListener("click", globalThis);
-  choiceBtn3.addEventListener("click", globalThis);
-  choiceBtn4.addEventListener("click", globalThis);
+choiceBtn1.addEventListener("click", checkAnswer);
+choiceBtn2.addEventListener("click", checkAnswer);
+choiceBtn3.addEventListener("click", checkAnswer);
+choiceBtn4.addEventListener("click", checkAnswer);
 }
 
+// checks user answer and runs the next question/ends games
 function checkAnswer(answer) {
   var selectedChoice = answer.target.textContent;
   var pickQuestion = questions[pickQuestionIndex];
@@ -132,7 +146,7 @@ function checkAnswer(answer) {
   }
 }
 
-// endGame logic
+
 function endGame() {
   clearInterval(timer);
   // remove questions
@@ -142,16 +156,39 @@ function endGame() {
   // user score
   document.querySelector("#gameOverContainer h2").textContent =
     "Score: " + time;
-};
-
-//trrying to get the high scores/local storage to work
-function getHighScore () {
-  var initialsInput = document.querySelector("#initials");
-  var initials = initialsInput.value.trim();
-  highScores.push({ initials, score: time });
-  highScores.sort((a, b) => b.score - a.score);
-  highScores = highScores.slice(0, 10);
 }
+
+//trying to get the high scores/local storage to work
+function submitScore() {
+    var initialsInput = document.querySelector("#initials");
+    var initials = initialsInput.value.trim();
+
+    if (initials !== "") {
+      var score = time;
+      var scoreEntry = {initials, score };
+      
+      highScores.push(scoreEntry);
+      highScores.sort((a, b) => b.score - a.score);
+      highScores = highScores.slice(0, 10);
+      
+      localStorage.setItem("highScores", JSON.stringify(highScores));
+      
+      // hide the game over container and show the high scores container
+      gameOverContainer.setAttribute("class", "hide");
+      highScoresContainer.removeAttribute("class");
+      
+      // displays the the high scores in the container
+      var scoresList = document.getElementById("highScoresList");
+      scoresList.innerHTML = "";
+      
+      for (var i = 0; i < highScores.length; i++) {
+        var scoreItem = document.createElement("li");
+        scoreItem.textContent = highScores[i].initials + " - " + highScores[i].score;
+        scoresList.appendChild(scoreItem);
+      }
+    }
+  }
+
 
 // load the high scores from local storage
 const storedScores = localStorage.getItem("highScores");
@@ -160,13 +197,4 @@ if (storedScores) {
 }
 
 // save high scores
-localStorage.setItem("highScores", JSON.stringify(highScores));
-
-// create a function that will run on the choice button click (event delegation)
-choiceBtn1.addEventListener("click", checkAnswer);
-choiceBtn2.addEventListener("click", checkAnswer);
-choiceBtn3.addEventListener("click", checkAnswer);
-choiceBtn4.addEventListener("click", checkAnswer);
-submitBtn.addEventListener("click", submitScore);
-
-startBtn.addEventListener("click", startGame);
+// localStorage.setItem("highScores", JSON.stringify(highScores));
