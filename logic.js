@@ -178,11 +178,11 @@ function submitScore() {
   }
 
 
-// load the high scores from local storage
-const storedScores = localStorage.getItem("highScores");
-if (storedScores) {
-  highScores = JSON.parse(storedScores);
-}
+// // load the high scores from local storage
+// const storedScores = localStorage.getItem("highScores");
+// if (storedScores) {
+//   highScores = JSON.parse(storedScores);
+// }
 
 // save high scores
 // localStorage.setItem("highScores", JSON.stringify(highScores));
